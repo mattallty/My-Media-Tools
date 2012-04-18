@@ -1,4 +1,4 @@
-Adding External librairies
+Adding External Librairies
 ==========================
 
 External librairies must be added to src/external/.
