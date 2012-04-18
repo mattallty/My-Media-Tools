@@ -1,4 +1,4 @@
-```bash
+```
 cd /path/to/My-Media-Tools
 git remote add -f twitter-bootstrap git@github.com:twitter/bootstrap.git
 git merge -s ours --no-commit twitter-bootstrap/master
