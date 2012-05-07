@@ -49,6 +49,16 @@ class Mmt_Cli_Colors {
 		$colored_string .=  $string . "\033[0m";
 		return $colored_string;
 	}
+	
+	function formatString($input)
+	{
+		if(is_array($input)) {
+			return $this->getColoredString($input[2], $input[1]);
+		}else{
+			$regex = "/\[color=([a-zA-Z_]+)\](.*?)\[\/color\]/is";
+			return preg_replace_callback($regex, array($this, 'formatString'), $input);
+		}
+	}
  
 	// Returns all foreground color names
 	public function getForegroundColors() {

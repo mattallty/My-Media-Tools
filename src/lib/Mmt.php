@@ -1,12 +1,13 @@
 <?php
 class Mmt {
 	
-	
 	/**
 	 * Mmt instance
 	 * @var Mmt Mmt instance
 	 */
 	static public $instance;
+	
+	private $_plugins;
 	
 	
 	/**
@@ -25,7 +26,8 @@ class Mmt {
 	 * @return void
 	 */
 	public function __autoload($class) {
-		$file = MMT_LIB_PATH.implode(DIRECTORY_SEPARATOR, explode("_", $class)).".php";
+		$infos = explode("_", $class);
+		$file = MMT_LIB_PATH.implode(DIRECTORY_SEPARATOR, $infos).".php";
 		if(file_exists($file))
 			require($file);
 	}
@@ -39,7 +41,58 @@ class Mmt {
 		    self::$instance = new self($args);
 		}
 		return self::$instance;
-	}	
+	}
+	
+	/**
+	 * Returns plugins list
+	 * 
+	 * @param $enabled boolean If true, returns only enabled plugins (default)
+	 * @return array list of plugins
+	 */
+	public function getPlugins($enabled = true) 
+	{
+		if(!is_null($this->_plugins)) 
+			return $this->_plugins;
+		
+		$plugins = array();
+		
+		foreach (new DirectoryIterator(MMT_PLUGINS_PATH) as $fileInfo) 
+		{
+    		if($fileInfo->isDot()) continue;
+			if(!$fileInfo->isDir()) continue;
+			
+			$plugin_path 	= $fileInfo->getPathname();
+			$plugin_name 	= $fileInfo->getBasename();
+			$plugin_config 	= json_decode(file_get_contents($plugin_path.DIRECTORY_SEPARATOR."manifest.json"), true);
+			
+			$plugin_config['path'] = $plugin_path;
+			
+			if(isset($plugin_config['enabled']) && $plugin_config['enabled']) {
+				$plugins[$plugin_name] = $plugin_config;
+			}
+		}
+		return ($this->_plugins = $plugins);
+	}
+	
+	public function plug($plugin_name) 
+	{
+		$plugins = $this->getPlugins();
+		
+		if(!array_key_exists($plugin_name, $plugins)) {
+			throw new Mmt_Exception("Plugin '' does not exist or is not enabled.");
+		}
+		
+		$plugin_class = str_replace(".", "_", $plugin_name);
+		require($plugins[$plugin_name]['path'].DIRECTORY_SEPARATOR."plugin.php");
+		
+		return new $plugin_class;
+	}
 }
+
+
+function plugin($plugin) {
+	return Mmt::getInstance()->plug($plugin);
+}
+
 
 spl_autoload_register(array(Mmt::getInstance(), '__autoload'));
