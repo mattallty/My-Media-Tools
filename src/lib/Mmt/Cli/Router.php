@@ -12,7 +12,7 @@ class Mmt_Cli_Router {
 		if(!count($args) || !in_array($args[0], array_keys($this->getAvailableCommands()))) {
 			$s = $this->help();
 		}else{
-			$o = plugin("com.foo.test")->foo();
+			
 		}
 		echo $this->_cli_colors->formatString($s)."\n";
 	}

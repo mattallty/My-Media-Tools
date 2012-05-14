@@ -7,7 +7,8 @@ class Mmt {
 	 */
 	static public $instance;
 	
-	private $_plugins;
+	private $_plugins; 				// plugins list
+	private $_plugins_instances; 	// plugins instances
 	
 	
 	/**
@@ -66,26 +67,27 @@ class Mmt {
 			$plugin_config 	= json_decode(file_get_contents($plugin_path.DIRECTORY_SEPARATOR."manifest.json"), true);
 			
 			$plugin_config['path'] = $plugin_path;
-			
-			if(isset($plugin_config['enabled']) && $plugin_config['enabled']) {
-				$plugins[$plugin_name] = $plugin_config;
-			}
+			$plugins[$plugin_name] = $plugin_config;
 		}
 		return ($this->_plugins = $plugins);
 	}
 	
 	public function plug($plugin_name) 
 	{
+		if(isset($this->_plugins_instances[$plugin_name])) {
+			return $this->_plugins_instances[$plugin_name];
+		}
+		
 		$plugins = $this->getPlugins();
 		
 		if(!array_key_exists($plugin_name, $plugins)) {
-			throw new Mmt_Exception("Plugin '' does not exist or is not enabled.");
+			throw new Mmt_Exception("Plugin '$plugin_name' does not exist or is not enabled.");
 		}
 		
 		$plugin_class = str_replace(".", "_", $plugin_name);
 		require($plugins[$plugin_name]['path'].DIRECTORY_SEPARATOR."plugin.php");
 		
-		return new $plugin_class;
+		return ($this->_plugins_instances[$plugin_name] = new $plugin_class($plugin_name));
 	}
 }
 

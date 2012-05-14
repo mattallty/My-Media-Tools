@@ -1,14 +1,1 @@
-{
-	"name" : "My Foo Plugin",
-	"version" : "2.1",
-	"author" : "Matt",
-	"url" : "http://foo.com",
-	"description" : "My Foo Plugin description",
-	"enabled" : true,
-	"dependencies" : [
-		{
-			"name" : "com.other.plugin", 
-			"version" : ">=2.0"
-		}
-	]
-}
+{"type":"metadata","uid":"com.foo.test","name":"My Foo Plugin","version":"2.1","author":"Matt","url":"http:\/\/foo.com","description":"My Foo Plugin description","enabled":true,"dependencies":[{"name":"com.other.plugin","version":">=2.0"}]}
