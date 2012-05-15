@@ -1,5 +1,10 @@
 <?php
-return array(
-	'version' => '1.0'
-
+return array (
+  'version' => '2.3 alpha',
+  'foo' => 
+  array (
+    'bar' => 1,
+    'joe' => 2,
+    'hiiii' => 'jajaj',
+  ),
 );

@@ -19,7 +19,24 @@ class Mmt_Config {
 	}
 	
 	public static function set($section, $property, $value) {
-		
+		if(ctype_digit($value)) {
+			$value = intval($value);
+		}elseif(is_numeric($value)) {
+			$value = floatval($value);
+		}elseif(is_string($value)) {
+			if($new_val = @json_decode($value, true)) {
+				$value = $new_val;
+			}	
+		}
+		$section_arr = self::get($section);
+		if(is_null($section_arr)) {
+			$section_arr = array();
+		}
+		$section_arr[$property] = $value;
+		if(file_put_contents(MMT_CONFIG_PATH.$section.".cfg.php", "<?php\nreturn ".var_export($section_arr, true).";")) {
+			return $section_arr;
+		}
+		return false;
 	} 
 	
 	public static function handleCommand() {
@@ -29,7 +46,7 @@ class Mmt_Config {
 		}else if($argn === 2) {
 			return json_encode(self::get(func_get_arg(0), func_get_arg(1)));
 		}else if($argn === 3) {
-						
+			return json_encode(self::set(func_get_arg(0), func_get_arg(1), func_get_arg(2)));			
 		}
 	}
 }

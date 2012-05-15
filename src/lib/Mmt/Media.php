@@ -1,11 +1,17 @@
 <?php
-abstract class Mmt_Media {
-	const MOVIE = 1;
-	const SHOW = 2;
+abstract class Mmt_Media 
+{
+	const MOVIE 	= 'movie';
+	const SHOW 		= 'show';
 	
-	private $_type;
+	protected $_type;
+	protected $_properties;
 	
 	public function getType() {
 		return $this->_type;
 	}
+	
+	
+	
+	
 }

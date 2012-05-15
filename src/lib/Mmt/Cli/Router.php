@@ -50,12 +50,9 @@ class Mmt_Cli_Router {
 		$s.= 'Type [color=light_red]./mmt[/color] [color=brown]help[/color] [color=purple]<command>[/color] for more details about a specific command.'."\n\n";
 		$s.= "Available commands are:\n";
 		
-		$commands = $this->getAvailableCommands();
-		
-		foreach ($commands as $cmd_name => $cmd_config) {
+		foreach ($this->getAvailableCommands() as $cmd_name => $cmd_config) {
 			$s .= '[color=purple]'.$cmd_name.'[/color]' . str_repeat(" ", 22-strlen($cmd_name))." ". $cmd_config['description'] ."\n";
 		}
-		
 		return $s;
 	}
 }
