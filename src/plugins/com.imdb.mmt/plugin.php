@@ -14,7 +14,7 @@ class Com_Imdb_Mmt extends Mmt_Plugin {
 		
 	}
 	
-	public function getMetaData() {
+	public function getMetaData($query) {
 		
 	}
 	

@@ -44,6 +44,10 @@ class Mmt {
 		return self::$instance;
 	}
 	
+	public function getConfig() {
+		
+	}
+	
 	/**
 	 * Returns plugins list
 	 * 

@@ -1,0 +1,15 @@
+The [color=purple]config[/color] command helps you get/set configuration variables and setup informations.
+Usage: [color=light_red]./mmt[/color] [color=purple]config[/color] [color=yellow]<section> [<property>] [<value>][/color]
+
+Examples:
+
+GET all configuration properties of the "main" section. (main.cfg.php)
+[color=light_red]./mmt[/color] [color=purple]config[/color] [color=yellow]main[/color]
+
+GET the property "version" of the "main" section. (main.cfg.php)
+[color=light_red]./mmt[/color] [color=purple]config[/color] [color=yellow]main version[/color]
+
+SET the property "version" to "1.0 beta" of the "main" section. (main.cfg.php)
+[color=light_red]./mmt[/color] [color=purple]config[/color] [color=yellow]main version[/color] [color=red]"1.0 beta"[/color]
+
+

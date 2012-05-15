@@ -12,7 +12,10 @@ class Mmt_Cli_Router {
 		if(!count($args) || !in_array($args[0], array_keys($this->getAvailableCommands()))) {
 			$s = $this->help();
 		}else{
-			
+			$cmd = new Mmt_Cli_Command($args[0]);
+			if($cmd->isValid()) {
+				$s = $cmd->call(array_slice($args, 1));
+			}
 		}
 		echo $this->_cli_colors->formatString($s)."\n";
 	}
@@ -35,9 +38,16 @@ class Mmt_Cli_Router {
 		return $commands;
 	}
 	
+	public function helpCommand($command) {
+		$cmd = new Mmt_Cli_Command($command);
+		if($cmd->isValid()) {
+			return $cmd->getHelp();
+		}
+	}
+	
 	public function help() {
-		$s = 'Usage: [color=light_red]./mmt-cli.php[/color] [color=purple]<command>[/color] [color=cyan]<options>[/color]'."\n";
-		$s.= 'Type [color=light_red]./mmt-cli.php[/color] [color=brown]help[/color] [color=purple]<command>[/color] for more details about a specific command.'."\n\n";
+		$s = 'Usage: [color=light_red]./mmt[/color] [color=purple]<command>[/color] [color=cyan]<options>[/color]'."\n";
+		$s.= 'Type [color=light_red]./mmt[/color] [color=brown]help[/color] [color=purple]<command>[/color] for more details about a specific command.'."\n\n";
 		$s.= "Available commands are:\n";
 		
 		$commands = $this->getAvailableCommands();
